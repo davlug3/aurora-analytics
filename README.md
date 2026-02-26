@@ -101,3 +101,40 @@ Note: the SEARCH_TERM is injected directly in the q parameter of the API call, s
 ```bash
  docker run --rm --it --env-file .env --name app2 aurora-analytics-news-ingestor
 ```
+
+### Development
+
+#### Option 1: Use venv
+
+```bash
+python -m venv .venv
+```
+
+Windows PowerShell:
+
+```
+./.venv/Scripts/Activate.ps1
+```
+
+Windows (cmd):
+
+```
+./.venv/Scripts/activate.bat
+```
+
+macOs/Linux:
+
+```
+source .venv/bin/activate
+```
+
+Then install dependencies
+
+```
+pip3 install -r requirements.txt
+```
+
+#### Option 2: Using dev containers (VSCode)
+
+1. Open the folder in VSCode
+2. Run: _Dev Containers: Reopen in Container_
