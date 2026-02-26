@@ -10,6 +10,8 @@ import boto3
 NEWSAPI_KEY = os.getenv("NEWSAPI_KEY")
 NEWSAPI_URL = os.getenv("NEWSAPI_BASE", "https://newsapi.org/v2/everything")
 API_FETCH_INTERVAL = int(os.getenv("API_FETCH_INTERVAL", 120))
+PAGE_SIZE = int(os.getenv("PAGE_SIZE", 100))
+SEARCH_TERM = os.getenv("SEARCH_TERM", "a")
 
 KINESIS_STREAM_NAME = os.getenv("KINESIS_STREAM_NAME", "news-stream")
 AWS_REGION = os.getenv("AWS_REGION", "ap-southeast-1")
@@ -57,15 +59,17 @@ def send_to_kinesis(article: Article):
         print(f"Failed to write to AWS Kinesis: {err}")
 
     
-def fetch_news(q = "technology", page_size=20) -> list[Article]:
+def fetch_news(q = "technology", page_size=PAGE_SIZE) -> list[Article]:
     print(f"[{datetime.now(timezone.utc)}] Fetching news for query: {q}")
     response = session.get(NEWSAPI_URL, params={
         "q": q,
         "apiKey": NEWSAPI_KEY,
-        "pageSize": page_size,
+        "pageSize": page_size
     })
     response.raise_for_status()
     articles = response.json().get("articles", [])
+    print(f"fetched {len(articles)} articles")
+
 
     validated_list = []
 
@@ -85,7 +89,7 @@ def main():
 
     while True:
         try: 
-            articles = fetch_news()
+            articles = fetch_news(SEARCH_TERM)
             if articles:
                 for article in articles: 
                     send_to_kinesis(article)
