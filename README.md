@@ -86,6 +86,8 @@ AWS_ACCESS_KEY_ID=<AWS Access Key>
 AWS_SECRET_ACCESS_KEY=<AWS Secret Access Key>
 ```
 
+Note: the SEARCH_TERM is injected directly in the q parameter of the API call, so it can follow the advances search syntax described in the [NewsAPI documentation](https://newsapi.org/docs/endpoints/search-articles).
+
 ### Docker Implementation
 
 #### Build the Image
