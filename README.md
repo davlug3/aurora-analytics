@@ -78,10 +78,12 @@ I have assumed an AWS account is already set up and configured.
 Create a `.env` file in the project root with the following variables:
 
 ```env
-NEWSAPI_KEY=your_newsapi_key_here
-KINESIS_STREAM_NAME=news-stream
+NEWSAPI_KEY=<NewsAPI Key>
+SEARCH_TERM=<NewsAPI search term>
+PAGE_SIZE=100
 AWS_REGION=ap-southeast-1
-API_FETCH_INTERVAL=120
+AWS_ACCESS_KEY_ID=<AWS Access Key>
+AWS_SECRET_ACCESS_KEY=<AWS Secret Access Key>
 ```
 
 ### Docker Implementation
@@ -89,5 +91,11 @@ API_FETCH_INTERVAL=120
 #### Build the Image
 
 ```bash
-docker build -t aurora-analytics-news-ingestor .
+ docker build -t aurora-analytics-news-ingestor .
+```
+
+#### Run the Image
+
+```bash
+ docker run --rm --it --env-file .env --name app2 aurora-analytics-news-ingestor
 ```
